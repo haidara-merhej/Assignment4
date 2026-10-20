@@ -12,11 +12,11 @@ string[] sessionNames =
 
 DateTime[] sessionDates =
 {
-    new DateTime(2026, 9, 10, 18, 0, 0),
-    new DateTime(2026, 9, 13, 18, 0, 0),
-    new DateTime(2026, 9, 17, 18, 0, 0),
-    new DateTime(2026, 9, 20, 18, 0, 0),
-    new DateTime(2026, 9, 24, 18, 0, 0)
+    new DateTime(2026, 10, 10, 18, 0, 0),
+    new DateTime(2026, 10, 13, 18, 0, 0),
+    new DateTime(2026, 10, 17, 18, 0, 0),
+    new DateTime(2026, 10, 20, 18, 0, 0),
+    new DateTime(2026, 10, 24, 18, 0, 0)
 };
 
 int[] sessionDurations =
@@ -124,17 +124,62 @@ int[] sessionDurations =
 // Console.WriteLine($"\nnumbers after calling the function {string.Join(", ", numbers)}");
 
 
+// /*
+//     Part 8 — params Keyword
+// */
+
+// int total1 = CalculateTotalDuration(120, 120);
+// int total2 = CalculateTotalDuration(120, 120, 240);
+
+// Console.WriteLine($"\nTotal Duration1: {total1}");
+// Console.WriteLine($"\nTotal Duration2: {total2}");
+
 /*
-    Part 8 — params Keyword
+    Part 9 — Session Date Details
 */
 
-int total1 = CalculateTotalDuration(120, 120);
-int total2 = CalculateTotalDuration(120, 120, 240);
+DisplaySessionDateDetails(sessionNames, sessionDates, sessionDurations, "Arrays");
 
-Console.WriteLine($"\nTotal Duration1: {total1}");
-Console.WriteLine($"\nTotal Duration2: {total2}");
+/*
+    Part 10 — Date Difference
+*/
+
+Console.WriteLine("\nDate Differnce:");
+Console.WriteLine($"First Session: {sessionNames[0]}");
+Console.WriteLine($"Second Session: {sessionNames[1]}");
+Console.WriteLine("Difference:");
+
+TimeSpan difference = GetDateDifference(sessionDates[0], sessionDates[1]);
+Console.WriteLine($"{difference.Days} days");
+Console.WriteLine($"{difference.Hours} hours");
+
+/*
+   Part 11 — Past and Upcoming Sessions
+*/
+
+Console.WriteLine("\nPast and Upcoming Sessions");
+DisplayPastAndUpcomingSessions(sessionNames, sessionDates);
+
+/*
+   Part 12 — Find the Next Session
+*/
+
+FindNextUpcomingSession(sessionNames, sessionDates);
+
+
+/*
+   Part 13 — Date Formatting
+*/
+
+DisplaySessionDateFormats(sessionDates[0]);
+
+/*
+   Part 14 — Read and Validate a Date
+*/
+ReadSessionDate();
 
 Console.WriteLine();
+
 
 
 void DisplaySessions(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
@@ -286,11 +331,6 @@ void CopyAndSortSessionDurations(int[] sessionDurations)
     Console.WriteLine($"Copied Array: {string.Join(", ", copiedArray)}");
 }
 
-DateTime GetSessionEndTime(DateTime sessionStartTime, int sessionDuration)
-{
-    return sessionStartTime.AddMinutes(sessionDuration);
-}
-
 DateTime ReadSessionDate()
 {
     while(true)
@@ -304,6 +344,12 @@ DateTime ReadSessionDate()
             DateTimeStyles.None, out DateTime result))
         {
             return result;
+        }
+        else
+        {
+            Console.WriteLine("Invalid date.");
+            Console.ReadKey();
+            continue;
         }
     }
 
@@ -380,4 +426,73 @@ int CalculateTotalDuration(params int[] durations)
     return totalDurations;
 }
 
+void DisplaySessionDateDetails(string[] sessionNames, DateTime[] sessionDates, 
+    int[] sessionDurations, string sessionName)
+{
+    int index = FindSessionIndex(sessionNames, sessionName);
 
+    if(index == -1)
+    {
+        Console.WriteLine("Session not found.");
+        return;
+    }
+
+    Console.WriteLine($"\nSession: {sessionName}\n");
+    Console.WriteLine($"Date: {sessionDates[index].Date.ToString("dd MMMM yyyy")}");
+    Console.WriteLine($"Day: {sessionDates[index].DayOfWeek}");
+    Console.WriteLine($"Year: {sessionDates[index].Year}");
+    Console.WriteLine($"Month: {sessionDates[index].Month}");
+    Console.WriteLine($"Day Number: {sessionDates[index].Day}");
+    Console.WriteLine($"Start Time: {sessionDates[index].ToString("hh:mm tt")}");
+    Console.WriteLine($"Duration: {sessionDurations[index]} minutes");
+    Console.WriteLine($"End Time: {GetSessionEndTime(sessionDates[index], sessionDurations[index]).ToString("hh:mm tt")}");
+}
+
+DateTime GetSessionEndTime(DateTime sessionStartTime, int sessionDuration)
+{
+    return sessionStartTime.AddMinutes(sessionDuration);
+}
+
+TimeSpan GetDateDifference(DateTime firstSessionDate, DateTime secondSessionDate)
+{
+    return secondSessionDate - firstSessionDate;
+}
+
+void DisplayPastAndUpcomingSessions(string[] sessionNames, DateTime[] sessionDates)
+{
+    for(int i = 0; i < sessionNames.Length; i++)
+    {
+        string status = sessionDates[i] < DateTime.Now ? "Past" : "Upcoming"; 
+        Console.WriteLine($"{sessionNames[i]} - {status}");
+    }
+}
+
+void FindNextUpcomingSession(string[] sessionNames, DateTime[] sessionDates)
+{
+    int nextSessionIndex = -1;
+    DateTime? nextSessionDate = null;
+    for(int i = 1; i < sessionNames.Length; i++)
+    {
+        if(sessionDates[i] > DateTime.Now && (nextSessionDate.HasValue == false || nextSessionDate > sessionDates[i]))
+        {
+            nextSessionDate = sessionDates[i];
+            nextSessionIndex = i;
+        }
+    }
+
+    Console.WriteLine($"\nNext Session: {sessionNames[nextSessionIndex]}");
+    Console.WriteLine($"\n{sessionDates[nextSessionIndex].ToString("dd MMMM yyyy")}");
+    Console.WriteLine($"{sessionDates[nextSessionIndex].ToString("hh:mm tt")}");
+    Console.WriteLine("\nTime Remaining:");
+    Console.WriteLine($"{sessionDates[nextSessionIndex].Day - DateTime.Now.Day} days");
+    Console.WriteLine($"{sessionDates[nextSessionIndex].Hour - DateTime.Now.Hour} hours");
+}
+
+void DisplaySessionDateFormats(DateTime sessionDate)
+{
+    Console.WriteLine($"\n{sessionDate.ToString("yyyy-MM-dd")}");
+    Console.WriteLine($"{sessionDate.ToString("dd/MM/yyyy")}");
+    Console.WriteLine($"{sessionDate.ToString("dd MMMM yyyy")}");
+    Console.WriteLine($"{sessionDate.ToString("dddd, dd MMMM yyyy")}");
+    Console.WriteLine($"{sessionDate.ToString("hh:mm tt")}");
+}
