@@ -28,100 +28,111 @@ int[] sessionDurations =
     180
 };
 
-DisplaySessions(sessionNames, sessionDates, sessionDurations);
+// DisplaySessions(sessionNames, sessionDates, sessionDurations);
 
-SearchSession(sessionNames, sessionDates, sessionDurations, "Function");
+// SearchSession(sessionNames, sessionDates, sessionDurations, "Function");
 
-SortSessionNames(sessionNames);
+// SortSessionNames(sessionNames);
 
-ReverseSessionNames(sessionNames);
+// ReverseSessionNames(sessionNames);
 
-// Find Session Index
-Console.Write("\nEnter session name: ");
-string sessionName = Console.ReadLine()!;
-if(!string.IsNullOrEmpty(sessionName))
-{
-    int index = FindSessionIndex(sessionNames, sessionName);
-    Console.WriteLine($"Index: {index}");
-}
+// // Find Session Index
+// Console.Write("\nEnter session name: ");
+// string sessionName = Console.ReadLine()!;
+// if(!string.IsNullOrEmpty(sessionName))
+// {
+//     int index = FindSessionIndex(sessionNames, sessionName);
+//     Console.WriteLine($"Index: {index}");
+// }
 
-//Check if a session exists
-Console.Write("\nEnter session name: ");
-string sessionName2 = Console.ReadLine()!;
-if(!string.IsNullOrEmpty(sessionName2))
-{
-    bool result = DoesSessionExist(sessionNames, sessionName2);
+// //Check if a session exists
+// Console.Write("\nEnter session name: ");
+// string sessionName2 = Console.ReadLine()!;
+// if(!string.IsNullOrEmpty(sessionName2))
+// {
+//     bool result = DoesSessionExist(sessionNames, sessionName2);
     
-    if(result)
-        Console.WriteLine("Session exists.");
-    else
-        Console.WriteLine("Session does not exist.");
-}
+//     if(result)
+//         Console.WriteLine("Session exists.");
+//     else
+//         Console.WriteLine("Session does not exist.");
+// }
 
 
-//Find Session
-Console.Write("\nEnter session name: ");
-string sessionName3 = Console.ReadLine()!;
-string? sessionFound = FindSession(sessionNames, sessionName3);
-Console.WriteLine(sessionFound ?? "Session not found");
+// //Find Session
+// Console.Write("\nEnter session name: ");
+// string sessionName3 = Console.ReadLine()!;
+// string? sessionFound = FindSession(sessionNames, sessionName3);
+// Console.WriteLine(sessionFound ?? "Session not found");
 
-// Find Session Index
-Console.Write("\nEnter session name: ");
-string sessionName4 = Console.ReadLine()!;
-if(!string.IsNullOrEmpty(sessionName4))
-{
-    int index = FindSessionIndexByCondition(sessionNames, sessionName4);
-    Console.WriteLine($"Index: {index}");
-}
+// // Find Session Index
+// Console.Write("\nEnter session name: ");
+// string sessionName4 = Console.ReadLine()!;
+// if(!string.IsNullOrEmpty(sessionName4))
+// {
+//     int index = FindSessionIndexByCondition(sessionNames, sessionName4);
+//     Console.WriteLine($"Index: {index}");
+// }
 
-DemonstrateArrayCopy(sessionNames);
+// DemonstrateArrayCopy(sessionNames);
 
-Console.WriteLine($"\nTotal Duration: {GetTotalDuration(sessionDurations)} minutes");
-Console.WriteLine($"Average Duration: {GetAverageDuration(sessionDurations)} minutes");
-Console.WriteLine($"Shortest Duration: {GetShortestDuration(sessionDurations)} minutes");
-Console.WriteLine($"Longest Duration: {GetLongestDuration(sessionDurations)} minutes");
+// Console.WriteLine($"\nTotal Duration: {GetTotalDuration(sessionDurations)} minutes");
+// Console.WriteLine($"Average Duration: {GetAverageDuration(sessionDurations)} minutes");
+// Console.WriteLine($"Shortest Duration: {GetShortestDuration(sessionDurations)} minutes");
+// Console.WriteLine($"Longest Duration: {GetLongestDuration(sessionDurations)} minutes");
 
-CopyAndSortSessionDurations(sessionDurations);
+// CopyAndSortSessionDurations(sessionDurations);
 
-Console.WriteLine($"\nSession End Time of Functions(2): {GetSessionEndTime(sessionDates[2], sessionDurations[2])}");
+// Console.WriteLine($"\nSession End Time of Functions(2): {GetSessionEndTime(sessionDates[2], sessionDurations[2])}");
 
-ReadSessionDate();
+// ReadSessionDate();
 
-var reportString = BuildReportUsingString(sessionNames, sessionDates, sessionDurations);
-Console.WriteLine(reportString);
+// var reportString = BuildReportUsingString(sessionNames, sessionDates, sessionDurations);
+// Console.WriteLine(reportString);
 
-var reportStringBuilder = BuildReportUsingStringBuilder(sessionNames, sessionDates, sessionDurations);
-Console.WriteLine(reportStringBuilder.ToString());
+// var reportStringBuilder = BuildReportUsingStringBuilder(sessionNames, sessionDates, sessionDurations);
+// Console.WriteLine(reportStringBuilder.ToString());
+
+
+// /*
+//     Part 7 - ref, out, and Reference-Type Parameters
+// */
+
+// //7.1 ref
+// int num = 10;
+// Console.WriteLine($"Before calling the function: {num}");
+// ChangeNumberByRef(ref num);
+// Console.WriteLine($"After calling the function: {num}");
+
+// //7.2 out
+// int idx, duration;
+// bool isFound;
+// Console.Write("\nEnter Session:");
+// string sessionName5 = Console.ReadLine()!;
+// SearchSessionName(sessionNames, sessionDurations, sessionName5, out idx, out duration, out isFound);
+
+// Console.WriteLine($"\nSession is found: {isFound}");
+// Console.WriteLine($"Session index: {idx}");
+// Console.WriteLine($"Session duration: {duration} minutes");
+
+// //7.3 Reference Type Without ref
+
+// int[] numbers = {1 , 3, 7, 5, 10};
+// //Modifying array without ref
+// Console.WriteLine($"\nnumbers before calling the function {string.Join(", ", numbers)}");
+// DemonstrateReferenceType(numbers);
+// Console.WriteLine($"\nnumbers after calling the function {string.Join(", ", numbers)}");
 
 
 /*
-    Part 7 - ref, out, and Reference-Type Parameters
+    Part 8 — params Keyword
 */
 
-//7.1 ref
-int num = 10;
-Console.WriteLine($"Before calling the function: {num}");
-ChangeNumberByRef(ref num);
-Console.WriteLine($"After calling the function: {num}");
+int total1 = CalculateTotalDuration(120, 120);
+int total2 = CalculateTotalDuration(120, 120, 240);
 
-//7.2 out
-int idx, duration;
-bool isFound;
-Console.Write("\nEnter Session:");
-string sessionName5 = Console.ReadLine()!;
-SearchSessionName(sessionNames, sessionDurations, sessionName5, out idx, out duration, out isFound);
-
-Console.WriteLine($"\nSession is found: {isFound}");
-Console.WriteLine($"Session index: {idx}");
-Console.WriteLine($"Session duration: {duration} minutes");
-
-//7.3 Reference Type Without ref
-
-int[] numbers = {1 , 3, 7, 5, 10};
-//Modifying array without ref
-Console.WriteLine($"\nnumbers before calling the function {string.Join(", ", numbers)}");
-DemonstrateReferenceType(numbers);
-Console.WriteLine($"\nnumbers after calling the function {string.Join(", ", numbers)}");
+Console.WriteLine($"\nTotal Duration1: {total1}");
+Console.WriteLine($"\nTotal Duration2: {total2}");
 
 Console.WriteLine();
 
@@ -357,4 +368,16 @@ void DemonstrateReferenceType(int[] numbers)
 
     numbers[0] = 3;
 }
+
+int CalculateTotalDuration(params int[] durations)
+{
+    int totalDurations = 0;
+    foreach(var duration in durations)
+    {
+        totalDurations += duration;
+    }
+
+    return totalDurations;
+}
+
 
