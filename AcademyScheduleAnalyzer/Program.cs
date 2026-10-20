@@ -25,9 +25,9 @@ int[] sessionDurations =
     180
 };
 
-//DisplaySessions(sessionNames, sessionDates, sessionDurations);
+DisplaySessions(sessionNames, sessionDates, sessionDurations);
 
-//SearchSession(sessionNames, sessionDates, sessionDurations, "Function");
+SearchSession(sessionNames, sessionDates, sessionDurations, "Function");
 
 SortSessionNames(sessionNames);
 
@@ -72,6 +72,13 @@ if(!string.IsNullOrEmpty(sessionName4))
 }
 
 DemonstrateArrayCopy(sessionNames);
+
+Console.WriteLine($"\nTotal Duration: {GetTotalDuration(sessionDurations)} minutes");
+Console.WriteLine($"Average Duration: {GetAverageDuration(sessionDurations)} minutes");
+Console.WriteLine($"Shortest Duration: {GetShortestDuration(sessionDurations)} minutes");
+Console.WriteLine($"Longest Duration: {GetLongestDuration(sessionDurations)} minutes");
+
+CopyAndSortSessionDurations(sessionDurations);
 
 Console.WriteLine();
 
@@ -165,3 +172,58 @@ void DemonstrateArrayCopy(string[] sessionNames)
     // Array.Copy(): only copy the values from the source array to the destination array
     //and any change in the copied array does not affect the original array
 }
+
+int GetTotalDuration(int[] sessionDurations)
+{
+    int total = 0;
+
+    foreach(var duration in sessionDurations)
+    {
+        total += duration;
+    }
+
+    return total;
+}
+
+double GetAverageDuration(int[] sessionDurations)
+{
+    return (double) GetTotalDuration(sessionDurations) / sessionDurations.Length;
+}
+
+int GetShortestDuration(int[] sessionDurations)
+{
+    int shortest = int.MaxValue;
+
+    foreach(var duration in sessionDurations)
+    {
+        shortest = shortest > duration ? duration : shortest;
+    }
+
+    return shortest;
+}
+
+int GetLongestDuration(int[] sessionDurations)
+{
+    int longest = int.MinValue;
+
+    foreach(var duration in sessionDurations)
+    {
+        longest = longest < duration ? duration : longest;
+    }
+
+    return longest;
+}
+
+void CopyAndSortSessionDurations(int[] sessionDurations)
+{
+    var copiedArray = new int[sessionDurations.Length];
+
+    Array.Copy(sessionDurations, copiedArray, sessionDurations.Length);
+
+    Array.Sort(copiedArray);
+
+    Console.WriteLine($"\nOriginal Array: {string.Join(", ", sessionDurations)}");
+    Console.WriteLine($"Copied Array: {string.Join(", ", copiedArray)}");
+}
+
+
