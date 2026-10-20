@@ -1,4 +1,7 @@
-﻿string[] sessionNames = 
+﻿using System.Globalization;
+using System.Text;
+
+string[] sessionNames = 
 {
     "C# Basics",
     "Arrays",
@@ -80,6 +83,16 @@ Console.WriteLine($"Longest Duration: {GetLongestDuration(sessionDurations)} min
 
 CopyAndSortSessionDurations(sessionDurations);
 
+Console.WriteLine($"\nSession End Time of Functions(2): {GetSessionEndTime(sessionDates[2], sessionDurations[2])}");
+
+ReadSessionDate();
+
+var reportString = BuildReportUsingString(sessionNames, sessionDates, sessionDurations);
+Console.WriteLine(reportString);
+
+var reportStringBuilder = BuildReportUsingStringBuilder(sessionNames, sessionDates, sessionDurations);
+Console.WriteLine(reportStringBuilder.ToString());
+
 Console.WriteLine();
 
 
@@ -105,13 +118,19 @@ bool SearchSession(string[] sessionNames, DateTime[] sessionDates, int[] session
         return false;
     }
 
+    DisplaySessionDetails(sessionNames, sessionDates, sessionDurations, index);
+
+    
+    return true;
+}
+
+void DisplaySessionDetails(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations, int index)
+{
     Console.WriteLine($"Session: {sessionNames[index]}");
     Console.WriteLine($"Date: {sessionDates[index].Date.ToString("dd MMMM yyyy")}");// 10 September 2026
     Console.WriteLine($"Start Time: {sessionDates[index].ToString("hh:mm tt")}");
     Console.WriteLine($"Duration: {sessionDurations[index]} minutes");
     Console.WriteLine("");
-    
-    return true;
 }
 
 void SortSessionNames(string[] sessionNames)
@@ -226,4 +245,56 @@ void CopyAndSortSessionDurations(int[] sessionDurations)
     Console.WriteLine($"Copied Array: {string.Join(", ", copiedArray)}");
 }
 
+DateTime GetSessionEndTime(DateTime sessionStartTime, int sessionDuration)
+{
+    return sessionStartTime.AddMinutes(sessionDuration);
+}
 
+DateTime ReadSessionDate()
+{
+    while(true)
+    {
+        Console.Clear();
+        string pattern = "yyyy-MM-dd HH:mm";
+        Console.Write($"\nEnter a date ({pattern}): ");
+        string dateInput = Console.ReadLine()!;
+
+        if(DateTime.TryParseExact(dateInput, pattern , CultureInfo.InvariantCulture, 
+            DateTimeStyles.None, out DateTime result))
+        {
+            return result;
+        }
+    }
+
+}
+
+string BuildReportUsingString(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
+{
+    string report = "\nAcademy Schedule Report\n";
+    report += "--------------------------\n";
+
+    for(int i = 0; i < sessionNames.Length; i++)
+    {
+        report += $"\nSession: {sessionNames[i]}\n"+
+        $"Date: {sessionDates[i].ToString("yyyy-MM-dd hh:mm tt")}\n" + 
+        $"Duration: {sessionDurations[i]} minutes\n";
+    }
+
+    return report;
+}
+
+StringBuilder BuildReportUsingStringBuilder(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
+{
+    StringBuilder report = new StringBuilder();
+    report.AppendLine("\nAcademy Schedule Report");
+    report.AppendLine("--------------------------\n");
+
+    for(int i = 0; i < sessionNames.Length; i++)
+    {
+        report.AppendLine($"Session: {sessionNames[i]}");
+        report.AppendLine($"Date: {sessionDates[i].ToString("yyyy-MM-dd hh:mm tt")}");
+        report.AppendLine($"Duration: {sessionDurations[i]} minutes\n");
+    }
+
+    return report;
+}
