@@ -25,19 +25,42 @@ int[] sessionDurations =
     180
 };
 
-DisplaySessions(sessionNames, sessionDates, sessionDurations);
+//DisplaySessions(sessionNames, sessionDates, sessionDurations);
+
+SearchSession(sessionNames, sessionDates, sessionDurations, "Function");
 
 
 Console.WriteLine();
+
 
 void DisplaySessions(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
 {
     for(int i = 0; i < sessionNames.Length; i++)
     {
         Console.WriteLine($"Session: {sessionNames[i]}");
-        Console.WriteLine($"Date: {sessionDates[i].Date.ToString("dd MMMM yyyy")}");// 10 September 2026
-        Console.WriteLine($"Start Time: {sessionDates[i].ToShortTimeString()}");
+        Console.WriteLine($"Date: {sessionDates[i].ToString("dd MMMM yyyy")}");// 10 September 2026
+        Console.WriteLine($"Start Time: {sessionDates[i].ToString("hh:mm tt")}");
         Console.WriteLine($"Duration: {sessionDurations[i]} minutes");
         Console.WriteLine("");
     }
 }
+
+bool SearchSession(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations, string sessionName)
+{
+    int index = Array.IndexOf(sessionNames, sessionName);
+
+    if(index == -1)
+    {
+        Console.WriteLine("Session not found.");
+        return false;
+    }
+
+    Console.WriteLine($"Session: {sessionNames[index]}");
+    Console.WriteLine($"Date: {sessionDates[index].Date.ToString("dd MMMM yyyy")}");// 10 September 2026
+    Console.WriteLine($"Start Time: {sessionDates[index].ToString("hh:mm tt")}");
+    Console.WriteLine($"Duration: {sessionDurations[index]} minutes");
+    Console.WriteLine("");
+    
+    return true;
+}
+
