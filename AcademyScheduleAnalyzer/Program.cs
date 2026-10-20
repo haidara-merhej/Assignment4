@@ -93,6 +93,36 @@ Console.WriteLine(reportString);
 var reportStringBuilder = BuildReportUsingStringBuilder(sessionNames, sessionDates, sessionDurations);
 Console.WriteLine(reportStringBuilder.ToString());
 
+
+/*
+    Part 7 - ref, out, and Reference-Type Parameters
+*/
+
+//7.1 ref
+int num = 10;
+Console.WriteLine($"Before calling the function: {num}");
+ChangeNumberByRef(ref num);
+Console.WriteLine($"After calling the function: {num}");
+
+//7.2 out
+int idx, duration;
+bool isFound;
+Console.Write("\nEnter Session:");
+string sessionName5 = Console.ReadLine()!;
+SearchSessionName(sessionNames, sessionDurations, sessionName5, out idx, out duration, out isFound);
+
+Console.WriteLine($"\nSession is found: {isFound}");
+Console.WriteLine($"Session index: {idx}");
+Console.WriteLine($"Session duration: {duration} minutes");
+
+//7.3 Reference Type Without ref
+
+int[] numbers = {1 , 3, 7, 5, 10};
+//Modifying array without ref
+Console.WriteLine($"\nnumbers before calling the function {string.Join(", ", numbers)}");
+DemonstrateReferenceType(numbers);
+Console.WriteLine($"\nnumbers after calling the function {string.Join(", ", numbers)}");
+
 Console.WriteLine();
 
 
@@ -298,3 +328,33 @@ StringBuilder BuildReportUsingStringBuilder(string[] sessionNames, DateTime[] se
 
     return report;
 }
+
+void ChangeNumberByRef(ref int num)
+{
+    num = 9;
+}
+
+void SearchSessionName(string[] sessionNames, int[] sessionDuration, string sessionName,
+    out int index, out int duration, out bool isFound)
+{
+    index = Array.IndexOf(sessionNames, sessionName);
+
+    if(index == -1)
+    {
+        duration = 0;
+        isFound = false;
+        return;
+    }
+
+    duration = sessionDuration[index];
+    isFound = true;
+}
+
+void DemonstrateReferenceType(int[] numbers)
+{
+    if(numbers.Length < 1)
+        return;
+
+    numbers[0] = 3;
+}
+
