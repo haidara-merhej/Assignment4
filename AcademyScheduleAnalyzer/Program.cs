@@ -27,8 +27,51 @@ int[] sessionDurations =
 
 //DisplaySessions(sessionNames, sessionDates, sessionDurations);
 
-SearchSession(sessionNames, sessionDates, sessionDurations, "Function");
+//SearchSession(sessionNames, sessionDates, sessionDurations, "Function");
 
+SortSessionNames(sessionNames);
+
+ReverseSessionNames(sessionNames);
+
+// Find Session Index
+Console.Write("\nEnter session name: ");
+string sessionName = Console.ReadLine()!;
+if(!string.IsNullOrEmpty(sessionName))
+{
+    int index = FindSessionIndex(sessionNames, sessionName);
+    Console.WriteLine($"Index: {index}");
+}
+
+//Check if a session exists
+Console.Write("\nEnter session name: ");
+string sessionName2 = Console.ReadLine()!;
+if(!string.IsNullOrEmpty(sessionName2))
+{
+    bool result = DoesSessionExist(sessionNames, sessionName2);
+    
+    if(result)
+        Console.WriteLine("Session exists.");
+    else
+        Console.WriteLine("Session does not exist.");
+}
+
+
+//Find Session
+Console.Write("\nEnter session name: ");
+string sessionName3 = Console.ReadLine()!;
+string? sessionFound = FindSession(sessionNames, sessionName3);
+Console.WriteLine(sessionFound ?? "Session not found");
+
+// Find Session Index
+Console.Write("\nEnter session name: ");
+string sessionName4 = Console.ReadLine()!;
+if(!string.IsNullOrEmpty(sessionName4))
+{
+    int index = FindSessionIndexByCondition(sessionNames, sessionName4);
+    Console.WriteLine($"Index: {index}");
+}
+
+DemonstrateArrayCopy(sessionNames);
 
 Console.WriteLine();
 
@@ -64,3 +107,61 @@ bool SearchSession(string[] sessionNames, DateTime[] sessionDates, int[] session
     return true;
 }
 
+void SortSessionNames(string[] sessionNames)
+{
+    string[] sortedSessionNames = new string [sessionNames.Length];
+
+    Array.Copy(sessionNames, sortedSessionNames, sessionNames.Length);
+
+    Array.Sort(sortedSessionNames);
+
+    Console.WriteLine("\nSort Session Names:");
+    Console.WriteLine(string.Join("\n", sortedSessionNames));
+}
+
+void  ReverseSessionNames(string[] sessionNames)
+{
+    string[] reversedSessionNames = new string[sessionNames.Length];
+
+    Array.Copy(sessionNames, reversedSessionNames, sessionNames.Length);
+
+    Array.Reverse(reversedSessionNames);
+
+    Console.WriteLine("\nReverse Session Names:");
+    Console.WriteLine(string.Join("\n", reversedSessionNames));
+}
+
+int FindSessionIndex(string[] sessionNames, string sessionName)
+{
+    return Array.IndexOf(sessionNames, sessionName);
+}
+
+bool DoesSessionExist(string[] sessionNames, string sessionName)
+{
+    return Array.Exists(sessionNames, name => name == sessionName);
+}
+
+string? FindSession(string[] sessionNames, string sessionName)
+{ 
+   return  Array.Find(sessionNames, name => name == sessionName);
+}
+
+int FindSessionIndexByCondition(string[] sessionNames, string sessionName)
+{
+    return Array.FindIndex(sessionNames, name => name == sessionName);
+}
+
+void DemonstrateArrayCopy(string[] sessionNames)
+{
+    var copiedArray = new string[sessionNames.Length];
+
+    Array.Copy(sessionNames, copiedArray, sessionNames.Length);
+
+    copiedArray[4] = "LINQ";
+
+    Console.WriteLine($"Original Array: {string.Join(", ", sessionNames)}");
+    Console.WriteLine($"Original Array: {string.Join(", ", copiedArray)}");
+
+    // Array.Copy(): only copy the values from the source array to the destination array
+    //and any change in the copied array does not affect the original array
+}
