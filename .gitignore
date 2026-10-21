@@ -1,0 +1,8 @@
+**.vs
+bin/
+obj/
+**.json
+AcademyScheduleAnalyzer/BenchmarkDotNet.Artifacts/AcademyScheduleAnalyzer.Benchmarks.StringBenchmark-20261021-020344.log
+AcademyScheduleAnalyzer/BenchmarkDotNet.Artifacts/results/AcademyScheduleAnalyzer.Benchmarks.StringBenchmark-report-github.md
+AcademyScheduleAnalyzer/BenchmarkDotNet.Artifacts/results/AcademyScheduleAnalyzer.Benchmarks.StringBenchmark-report.csv
+AcademyScheduleAnalyzer/BenchmarkDotNet.Artifacts/results/AcademyScheduleAnalyzer.Benchmarks.StringBenchmark-report.html
